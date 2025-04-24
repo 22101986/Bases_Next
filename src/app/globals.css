@@ -33,3 +33,19 @@
     50% { transform: translateY(-12px); }
   }
 }
+
+.prose {
+  color: inherit;
+}
+
+.prose a {
+  @apply text-blue-600 hover:underline;
+}
+
+.prose pre {
+  @apply bg-gray-800 text-gray-100 p-4 rounded-lg overflow-x-auto;
+}
+
+.prose code:not(pre code) {
+  @apply bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm;
+}
