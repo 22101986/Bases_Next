@@ -1,0 +1,84 @@
+/* src/styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Styles de base personnalisés */
+@layer base {
+  :root {
+    --primary: 25 95% 53%; /* Couleur orange moderne */
+    --secondary: 210 100% 45%; /* Bleu vif */
+    --accent: 330 81% 60%; /* Rose vibrant */
+    --background: 0 0% 98%; /* Fond légèrement gris */
+    --text: 0 0% 13%; /* Noir doux */
+  }
+
+  .dark {
+    --primary: 20 100% 65%; /* Orange plus clair */
+    --secondary: 210 100% 65%; /* Bleu clair */
+    --accent: 330 81% 75%; /* Rose clair */
+    --background: 0 0% 13%; /* Fond sombre */
+    --text: 0 0% 90%; /* Texte clair */
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-background text-text min-h-screen font-sans antialiased;
+    background-image: radial-gradient(circle at 10% 20%, rgba(253, 239, 132, 0.05) 0%, rgba(247, 198, 169, 0.05) 54%, rgba(196, 181, 253, 0.05) 100%);
+  }
+
+  h1 {
+    @apply text-4xl font-bold tracking-tight sm:text-5xl;
+  }
+
+  h2 {
+    @apply text-3xl font-bold;
+  }
+
+  h3 {
+    @apply text-2xl font-semibold;
+  }
+
+  a {
+    @apply text-primary hover:text-secondary transition-colors;
+  }
+}
+
+/* Composants personnalisés */
+@layer components {
+  .btn {
+    @apply px-6 py-3 rounded-lg font-medium transition-all duration-200 ease-out;
+    @apply bg-primary text-white hover:bg-secondary hover:shadow-lg;
+    @apply focus:ring-2 focus:ring-primary focus:ring-opacity-50;
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden;
+    @apply transition-all hover:shadow-xl;
+    @apply border border-gray-200 dark:border-gray-700;
+  }
+
+  .glass-effect {
+    @apply bg-white/80 dark:bg-gray-800/80 backdrop-blur-md;
+    @apply border border-white/20 dark:border-gray-700/20;
+  }
+}
+
+/* Utilitaires personnalisés */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+}
