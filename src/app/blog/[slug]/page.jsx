@@ -22,15 +22,15 @@ const articles = {
       {
         type: "code",
         text: `// Exemple de Server Action
-async function createPost(formData) {
-  'use server'
-  await db.post.create({
-    data: {
-      title: formData.get('title'),
-      content: formData.get('content')
-    }
-  })
-}`
+            async function createPost(formData) {
+              'use server'
+              await db.post.create({
+                data: {
+                  title: formData.get('title'),
+                  content: formData.get('content')
+                }
+              })
+            }`
       },
       {
         type: "heading",

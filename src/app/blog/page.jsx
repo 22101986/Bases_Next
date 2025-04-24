@@ -44,7 +44,7 @@ export default function BlogList() {
                 </span>
                 
                 <Link
-                  href={`/blog/${post.slug}`}
+                  href={`/blog/nextjs-14`}
                   className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium flex items-center gap-1 transition-colors"
                 >
                   Lire
