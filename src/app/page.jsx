@@ -24,6 +24,7 @@ export default function Home() {
                 Nouveau
               </span>
               <h3 className="text-xl font-bold mb-2">Maîtrisez Next.js 14</h3>
+              
               <p className="text-gray-600 dark:text-gray-300 mb-4">
                 Apprenez les nouvelles fonctionnalités de la dernière version.
               </p>

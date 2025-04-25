@@ -1,108 +1,118 @@
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
+import { posts } from '@/data/posts';
+import Image from 'next/image';
 
-// Simule une base de données d'articles
-const articles = {
-  "nextjs-14": {
-    title: "Maîtrisez Next.js 14",
-    date: "15 mai 2024",
-    content: [
-      {
-        type: "paragraph",
-        text: "Next.js 14 apporte des améliorations majeures qui révolutionnent le développement web. Voici les fonctionnalités clés :"
-      },
-      {
-        type: "heading",
-        text: "1. Server Actions stabilisées"
-      },
-      {
-        type: "paragraph",
-        text: "Les Server Actions permettent désormais des mutations de données directement depuis les composants sans créer d'API endpoints manuellement."
-      },
-      {
-        type: "code",
-        text: `// Exemple de Server Action
-            async function createPost(formData) {
-              'use server'
-              await db.post.create({
-                data: {
-                  title: formData.get('title'),
-                  content: formData.get('content')
-                }
-              })
-            }`
-      },
-      {
-        type: "heading",
-        text: "2. Optimisations du compilateur"
-      },
-      {
-        type: "paragraph",
-        text: "Le nouveau compilateur Turbopack (beta) offre des temps de rebuild jusqu'à 76% plus rapides."
-      }
-    ],
-    author: "Jean Dupont",
-    tags: ["Next.js", "React", "Frontend"]
-  }
-};
-
-export default function Article({ params }) {
-  const article = articles[params.slug];
+export default function ArticlePage({ params }) {
+  const post = posts.find(p => p.slug === params.slug);
   
-  if (!article) return notFound();
+  if (!post) return notFound();
 
   return (
     <article className="max-w-3xl mx-auto py-12 px-4">
-      <div className="mb-8">
-        <Link href="/blog" className="text-blue-600 hover:underline">
-          &larr; Retour aux articles
-        </Link>
-      </div>
-      
       <header className="mb-12">
-        <div className="flex items-center space-x-4 mb-4">
-          {article.tags.map(tag => (
-            <span key={tag} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+        <div className="flex gap-2 mb-4">
+          {post.tags.map(tag => (
+            <span 
+              key={tag} 
+              className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full text-sm font-medium"
+            >
               {tag}
             </span>
           ))}
         </div>
-        <h1 className="text-4xl font-bold mb-4">{article.title}</h1>
-        <div className="flex items-center space-x-4 text-gray-500">
-          <span>Par {article.author}</span>
-          <span>•</span>
-          <span>{article.date}</span>
+        
+        <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+          {post.title}
+        </h1>
+        
+        <div className="text-gray-500 dark:text-gray-400 mb-8">
+          Publié le {new Date(post.date).toLocaleDateString('fr-FR')}
         </div>
       </header>
 
-      <div className="prose prose-lg dark:prose-invert max-w-none">
-        {article.content.map((section, index) => (
-          <div key={index}>
-            {section.type === 'heading' && (
-              <h2 className="text-2xl font-bold mt-8 mb-4">{section.text}</h2>
-            )}
-            {section.type === 'paragraph' && (
-              <p className="mb-6 leading-relaxed">{section.text}</p>
-            )}
-            {section.type === 'code' && (
-              <pre className="bg-gray-800 text-gray-100 p-4 rounded-lg overflow-x-auto my-6">
-                <code>{section.text}</code>
-              </pre>
-            )}
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-16 border-t pt-8">
-        <h3 className="text-xl font-bold mb-4">Partager cet article</h3>
-        <div className="flex space-x-4">
-          <button className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition">
-            <span className="sr-only">Twitter</span>
-            {/* Icône Twitter */}
-          </button>
-          {/* Ajoutez d'autres boutons de partage */}
-        </div>
+      <div className="space-y-6">
+        {post.content.map((section, index) => {
+          switch (section.type) {
+            case 'heading':
+              return (
+                <h2 
+                  key={index} 
+                  className="text-2xl font-bold mt-8 mb-4 text-gray-800 dark:text-gray-200"
+                >
+                  {section.text}
+                </h2>
+              );
+              
+            case 'paragraph':
+              return (
+                <p 
+                  key={index} 
+                  className="text-gray-700 dark:text-gray-300 leading-relaxed"
+                >
+                  {section.text}
+                </p>
+              );
+              
+            case 'code':
+              return (
+                <div key={index} className="my-6">
+                  <pre className="bg-gray-800 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
+                    <code>{section.content}</code>
+                  </pre>
+                  {section.language && (
+                    <div className="text-right mt-1 text-xs text-gray-500">
+                      {section.language}
+                    </div>
+                  )}
+                </div>
+              );
+              
+            case 'image':
+              return (
+                <div key={index} className="my-8">
+                  <div className="relative w-full h-96 rounded-lg overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700">
+                    <Image
+                      src={section.src}
+                      alt={section.alt || 'Image illustrative'}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 600px) 80vw, 600px"
+                      priority={index === 0}
+                    />
+                  </div>
+                  {section.alt && (
+                    <p className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+                      {section.alt}
+                    </p>
+                  )}
+                </div>
+              );
+              
+            case 'list':
+              return (
+                <ul key={index} className="list-disc pl-6 space-y-2 my-4">
+                  {section.items.map((item, i) => (
+                    <li 
+                      key={i} 
+                      className="text-gray-700 dark:text-gray-300"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              );
+              
+            default:
+              return null;
+          }
+        })}
       </div>
     </article>
   );
+}
+
+export async function generateStaticParams() {
+  return posts.map(post => ({
+    slug: post.slug
+  }));
 }
