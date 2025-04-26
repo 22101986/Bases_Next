@@ -358,5 +358,28 @@ export const posts = [
     "date": "2025-04-26",
     "id": 8,
     "slug": "react"
+  },
+  {
+    "title": "Next.js (routeur d'applications)",
+    "excerpt": "Next.js (routeur d'applications)",
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "App Router de Next.js est un framework React qui tire pleinement parti de l'architecture de React pour permettre des applications React full-stack."
+      },
+      {
+        "type": "code",
+        "content": "npx create-next-app@latest",
+        "language": "bash"
+      },
+      {
+        "type": "paragraph",
+        "text": "Next.js est maintenu par Vercel . Vous pouvez déployer une application Next.js sur n'importe quel hébergeur prenant en charge les conteneurs Node.js ou Docker, ou sur votre propre serveur. Next.js prend également en charge l'exportation statique , qui ne nécessite pas de serveur."
+      }
+    ],
+    "tags": [],
+    "date": "2025-04-26",
+    "id": 9,
+    "slug": "nextjs-routeur-dapplications"
   }
 ];

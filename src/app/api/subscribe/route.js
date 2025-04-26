@@ -1,27 +1,32 @@
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { saveSubscriber } from '@/lib/newsletter';
 
 export async function POST(request) {
+  console.log('Requête reçue');
   try {
     const { email } = await request.json();
-    
+    console.log('Email reçu:', email);
 
-    if (!global.subscribers) global.subscribers = [];
-    global.subscribers.push(email);
+    if (!email || !email.includes('@')) {
+      console.log('Email invalide:', email);
+      return NextResponse.json(
+        { error: 'Email invalide' },
+        { status: 400 }
+      );
+    }
 
-    await resend.emails.send({
-      from: 'h.pierrache@gmail.com',
-      to: email,
-      subject: 'Confirmation d\'abonnement',
-      html: `<p>Merci de votre abonnement ! Vous recevrez nos prochains articles.</p>`
-    });
+    console.log('Tentative de sauvegarde...');
+    await saveSubscriber(email);
+    console.log('Sauvegarde réussie');
 
-    return NextResponse.json({ success: true });
-  } catch (error) {
     return NextResponse.json(
-      { error: error.message },
+      { message: 'Inscription réussie!' },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Erreur dans l\'API:', error);
+    return NextResponse.json(
+      { error: error.message || 'Erreur lors de l\'inscription' },
       { status: 500 }
     );
   }

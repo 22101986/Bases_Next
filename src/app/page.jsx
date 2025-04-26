@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Newsletter from '@/components/Newsletter';
 
 export default function Home() {
   return (
@@ -41,22 +42,7 @@ export default function Home() {
           </div>
 
           {/* Newsletter */}
-          <div className="card bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-800 dark:to-gray-700 p-6">
-            <h3 className="text-xl font-bold mb-3">Abonnez-vous</h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              Recevez les nouveaux articles directement dans votre boîte mail.
-            </p>
-            <div className="flex">
-              <input 
-                type="email" 
-                placeholder="Votre email" 
-                className="flex-grow px-4 py-2 rounded-l-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg transition-colors">
-                OK
-              </button>
-            </div>
-          </div>
+          <Newsletter />
         </div>
 
         <div className="mt-16 text-center">
