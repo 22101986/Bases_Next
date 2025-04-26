@@ -1,4 +1,7 @@
 import { posts } from '@/data/posts';
+import Link from 'next/link';
+
+console.log(posts);
 
 export default function BlogList() {
   return (
@@ -6,6 +9,17 @@ export default function BlogList() {
       <h1 className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
         Mes Articles Techniques
       </h1>
+      <div className="text-center mb-8">
+        <Link 
+          href="/blog/new"
+          className="btn-primary inline-flex items-center px-6 py-3"
+        >
+          Créer un nouvel article
+          <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        </Link>
+      </div>
       
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {posts.map(post => (
