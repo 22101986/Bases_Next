@@ -2,6 +2,14 @@ import { notFound } from 'next/navigation';
 import { posts } from '@/data/posts';
 import Image from 'next/image';
 
+export const dynamicParams = true; // Permet de servir les slugs non pré-générés
+
+export async function generateStaticParams() {
+  return posts.map(post => ({
+    slug: post.slug
+  }));
+}
+
 export default function ArticlePage({ params }) {
   const post = posts.find(p => p.slug === params.slug);
   
@@ -109,10 +117,4 @@ export default function ArticlePage({ params }) {
       </div>
     </article>
   );
-}
-
-export async function generateStaticParams() {
-  return posts.map(post => ({
-    slug: post.slug
-  }));
 }
