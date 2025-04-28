@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { saveSubscriber } from '@/lib/newsletter';
+import { saveSubscriber, subscribers, suscribers } from '@/lib/newsletter';
 
 export async function POST(request) {
   console.log('Requête reçue');
@@ -15,10 +15,17 @@ export async function POST(request) {
       );
     }
 
-    console.log('Tentative de sauvegarde...');
-    await saveSubscriber(email);
-    console.log('Sauvegarde réussie');
+    console.log(subscribers)
 
+    if(!subscribers.includes(email)) {
+      await saveSubscriber(email);
+    } else {
+      return NextResponse.json(
+        { error: 'Abonnement éxistant' },
+        { status: 400 }
+      );
+    }
+  
     return NextResponse.json(
       { message: 'Inscription réussie!' },
       { status: 200 }

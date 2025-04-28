@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 const subscribersPath = path.join(process.cwd() ,'src', 'data', 'subscribers.json');
+export let subscribers = [];
 
 export async function saveSubscriber(email) {
   console.log('Chemin du fichier:', subscribersPath);
@@ -11,7 +12,6 @@ export async function saveSubscriber(email) {
       fs.mkdirSync(path.dirname(subscribersPath), { recursive: true });
     }
 
-    let subscribers = [];
     
     if (fs.existsSync(subscribersPath)) {
       const fileData = fs.readFileSync(subscribersPath, 'utf8');
