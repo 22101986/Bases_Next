@@ -1,13 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 export default function Newsletter() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [subscribersCount, setSubscribersCount] = useState(0);
   const { register, handleSubmit, formState: { errors } } = useForm();
+
+  useEffect(() => {
+    const fetchSubscribersCount = async () => {
+      try {
+        const response = await fetch('/api/subscribe/count');
+        const data = await response.json();
+        if (response.ok) {
+          setSubscribersCount(data.count);
+        }
+      } catch (err) {
+        console.error('Erreur lors de la récupération du nombre d\'abonnés:', err);
+      }
+    };
+
+    fetchSubscribersCount();
+  }, []);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -32,6 +49,8 @@ export default function Newsletter() {
       }
 
       setIsSubscribed(true);
+      // Mettre à jour le nombre d'abonnés après une inscription réussie
+      setSubscribersCount(prev => prev + 1);
     } catch (err) {
       console.error('Erreur complète:', err);
       setError(err.message || 'Erreur lors de l\'inscription');
@@ -54,7 +73,7 @@ export default function Newsletter() {
     <div className="card bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-800 dark:to-gray-700 p-6">
       <h3 className="text-xl font-bold mb-3">Abonnez-vous</h3>
       <p className="text-gray-600 dark:text-gray-300 mb-4">
-        Recevez les nouveaux articles directement dans votre boîte mail.
+        {subscribersCount} personnes sont déjà abonnées à notre newsletter.
       </p>
       
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { saveSubscriber, subscribers, suscribers } from '@/lib/newsletter';
+import { saveSubscriber, subscribers } from '@/lib/newsletter';
 
 export async function POST(request) {
   console.log('Requête reçue');
