@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const subscribersPath = path.join(process.cwd(), 'data', 'subscribers.json');
+const subscribersPath = path.join(process.cwd() ,'src', 'data', 'subscribers.json');
 
 export async function saveSubscriber(email) {
   console.log('Chemin du fichier:', subscribersPath);
@@ -22,7 +22,7 @@ export async function saveSubscriber(email) {
       console.log('Email déjà existant');
       return;
     }
-
+    console.log(subscribers);
     subscribers.push(email);
     fs.writeFileSync(subscribersPath, JSON.stringify(subscribers, null, 2));
     console.log('Email sauvegardé avec succès');
