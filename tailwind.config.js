@@ -1,18 +1,19 @@
 module.exports = {
+  darkMode: 'class',
   content: [
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./app/**/*.{js,ts,jsx,tsx}",
+    './src/**/*.{js,ts,jsx,tsx}',
   ],
-  darkMode: 'class', // Activation du mode sombre via classe
   theme: {
     extend: {
       colors: {
-        skin: {
-          base: 'var(--text-color)',
-          fill: 'var(--bg-color)',
-        }
-      }
-    }
+        
+        dark: {
+          900: '#121212',
+          800: '#1E1E1E',
+          700: '#2D2D2D',
+        },
+      },
+    },
   },
   plugins: [],
 }

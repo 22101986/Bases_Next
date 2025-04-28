@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer base {
+  :root {
+    --text-primary: #111827;
+    --bg-primary: #ffffff;
+  }
+
+  .dark {
+    --text-primary: #f3f4f6;
+    --bg-primary: #121212;
+  }
+
+  body {
+    @apply text-gray-900 dark:text-gray-100;
+    @apply bg-white dark:bg-gray-900;
+  }
+} 
 @layer components {
   .btn-primary {
     @apply px-6 py-3 rounded-lg font-medium transition-all duration-300 ease-in-out;

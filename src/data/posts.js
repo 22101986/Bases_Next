@@ -381,5 +381,94 @@ export const posts = [
     "date": "2025-04-26",
     "id": 9,
     "slug": "nextjs-routeur-dapplications"
+  },
+  {
+    "title": "Comment utiliser les outils de débogage avec Next.js",
+    "excerpt": "Comment utiliser les outils de débogage avec Next.js",
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "Cette documentation explique comment vous pouvez déboguer votre code frontend et backend Next.js avec une prise en charge complète des cartes sources à l'aide du débogueur VS Code.Outils de développement Chrome, ou Firefox DevTools.\n\nTout débogueur compatible avec Node.js peut également être utilisé pour déboguer une application Next.js. Pour plus de détails, consultez le Guide de débogage Node.js.."
+      },
+      {
+        "type": "heading",
+        "text": "Débogage avec VS Code"
+      },
+      {
+        "type": "paragraph",
+        "text": "Créez un fichier nommé .vscode/launch.jsonà la racine de votre projet avec le contenu suivant :"
+      },
+      {
+        "type": "code",
+        "content": "{\n  \"version\": \"0.2.0\",\n  \"configurations\": [\n    {\n      \"name\": \"Next.js: debug server-side\",\n      \"type\": \"node-terminal\",\n      \"request\": \"launch\",\n      \"command\": \"npm run dev\"\n    },\n    {\n      \"name\": \"Next.js: debug client-side\",\n      \"type\": \"chrome\",\n      \"request\": \"launch\",\n      \"url\": \"http://localhost:3000\"\n    },\n    {\n      \"name\": \"Next.js: debug client-side (Firefox)\",\n      \"type\": \"firefox\",\n      \"request\": \"launch\",\n      \"url\": \"http://localhost:3000\",\n      \"reAttach\": true,\n      \"pathMappings\": [\n        {\n          \"url\": \"webpack://_N_E\",\n          \"path\": \"${workspaceFolder}\"\n        }\n      ]\n    },\n    {\n      \"name\": \"Next.js: debug full stack\",\n      \"type\": \"node\",\n      \"request\": \"launch\",\n      \"program\": \"${workspaceFolder}/node_modules/next/dist/bin/next\",\n      \"runtimeArgs\": [\"--inspect\"],\n      \"skipFiles\": [\"<node_internals>/**\"],\n      \"serverReadyAction\": {\n        \"action\": \"debugWithEdge\",\n        \"killOnServerStop\": true,\n        \"pattern\": \"- Local:.+(https?://.+)\",\n        \"uriFormat\": \"%s\",\n        \"webRoot\": \"${workspaceFolder}\"\n      }\n    }\n  ]\n}",
+        "language": "json"
+      },
+      {
+        "type": "paragraph",
+        "text": "Remarque : pour utiliser le débogage Firefox dans VS Code, vous devez installer l' extension Firefox Debugger.\n\nnpm run devpeut être remplacé par yarn devsi vous utilisez Yarn ou pnpm devsi vous utilisez pnpm.\n\nDans la configuration « Next.js : debug full stack », serverReadyAction.actionspécifiez le navigateur à ouvrir lorsque le serveur est prêt. debugWithEdgeCela signifie lancer le navigateur Edge. Si vous utilisez Chrome, définissez cette valeur sur debugWithChrome.\n\nSi vous modifiez le numéro de port sur lequel votre application démarre, remplacez le 3000in http://localhost:3000par le port que vous utilisez à la place.\n\nSi vous exécutez Next.js depuis un répertoire autre que la racine (par exemple, si vous utilisez Turborepo), vous devez ajouter cwddes tâches de débogage côté serveur et de la pile complète. Par exemple, \"cwd\": \"${workspaceFolder}/apps/web\".\n\nAccédez maintenant au panneau Débogage ( Ctrl+Shift+Dsur Windows/Linux, ⇧+⌘+Dsur macOS), sélectionnez une configuration de lancement, puis appuyez F5ou sélectionnez Débogage : Démarrer le débogage dans la palette de commandes pour démarrer votre session de débogage.\n\n"
+      },
+      {
+        "type": "heading",
+        "text": "Utilisation du débogueur dans Jetbrains WebStorm\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "Cliquez sur le menu déroulant de la configuration d'exécution, puis cliquez sur Edit Configurations.... Créez une JavaScript Debugconfiguration de débogage avec http://localhost:3000l'URL . Personnalisez-la à votre convenance (par exemple, navigateur pour le débogage, stockage en tant que fichier projet), puis cliquez sur OK. Exécutez cette configuration de débogage ; le navigateur sélectionné devrait s'ouvrir automatiquement. À ce stade, vous devriez avoir deux applications en mode débogage : l'application nœud NextJS et l'application client/navigateur."
+      },
+      {
+        "type": "heading",
+        "text": "Débogage avec les DevTools du navigateur"
+      },
+      {
+        "type": "heading",
+        "text": "\nCode côté client"
+      },
+      {
+        "type": "paragraph",
+        "text": "Démarrez votre serveur de développement comme d'habitude en exécutant next dev, npm run dev, ou yarn dev. Une fois le serveur démarré, ouvrez http://localhost:3000(ou votre URL alternative) dans votre navigateur préféré.\n\nPour Chrome :\n\nOuvrez les outils de développement de Chrome ( Ctrl+Shift+Jsur Windows/Linux, ⌥+⌘+Isur macOS)\nAccédez à l' onglet Sources\nPour Firefox :\n\nOuvrez les outils de développement de Firefox ( Ctrl+Shift+Isur Windows/Linux, ⌥+⌘+Isur macOS)\nAccédez à l' onglet Débogueur\nDans l'un ou l'autre navigateur, chaque fois que votre code côté client atteint undebuggerL'exécution du code sera interrompue et le fichier correspondant apparaîtra dans la zone de débogage. Vous pouvez également rechercher des fichiers pour définir manuellement des points d'arrêt :\n\nDans Chrome : appuyez Ctrl+Psur Windows/Linux ou ⌘+Psur macOS\nDans Firefox : appuyez Ctrl+Psur Windows/Linux ou ⌘+Psur macOS, ou utilisez l’arborescence des fichiers dans le panneau de gauche\nNotez que lors de la recherche, vos fichiers sources auront des chemins commençant par webpack://_N_E/./.\n\n"
+      },
+      {
+        "type": "heading",
+        "text": "Code côté serveur\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "Pour déboguer le code Next.js côté serveur avec les DevTools du navigateur, vous devez passer le--inspectdrapeau au processus Node.js sous-jacent :"
+      },
+      {
+        "type": "code",
+        "content": "NODE_OPTIONS='--inspect' next dev",
+        "language": "_>Terminal"
+      },
+      {
+        "type": "paragraph",
+        "text": "Bon à savoir : utilisez-le NODE_OPTIONS='--inspect=0.0.0.0'pour autoriser l'accès au débogage à distance en dehors de localhost, par exemple lors de l'exécution de l'application dans un conteneur Docker.\n\nSi vous utilisez npm run devou yarn devalors vous devez mettre à jour le devscript sur votre package.json:"
+      },
+      {
+        "type": "code",
+        "content": "{\n  \"scripts\": {\n    \"dev\": \"NODE_OPTIONS='--inspect' next dev\"\n  }\n}",
+        "language": "json"
+      },
+      {
+        "type": "paragraph",
+        "text": "Le lancement du serveur de développement Next.js avec l' --inspectindicateur ressemblera à ceci :"
+      },
+      {
+        "type": "code",
+        "content": "Debugger listening on ws://127.0.0.1:9229/0cf90313-350d-4466-a748-cd60f4e47c95\nFor help, see: https://nodejs.org/en/docs/inspector\nready - started server on 0.0.0.0:3000, url: http://localhost:3000",
+        "language": "_>terminal"
+      },
+      {
+        "type": "paragraph",
+        "text": "Pour Chrome :\n\nOuvrez un nouvel onglet et visitezchrome://inspect\nCliquez sur Configurer... pour vous assurer que les deux ports de débogage sont répertoriés\nAjoutez les deux localhost:9229et localhost:9230s'ils ne sont pas déjà présents\nRecherchez votre application Next.js dans la section Cible distante\nCliquez sur Inspecter pour ouvrir une fenêtre DevTools distincte\nAccédez à l' onglet Sources\nPour Firefox :\n\nOuvrez un nouvel onglet et visitezabout:debugging\nCliquez sur ce Firefox dans la barre latérale gauche\nSous Cibles distantes , recherchez votre application Next.js\nCliquez sur Inspecter pour ouvrir le débogueur\nAccédez à l' onglet Débogueur\nLe débogage du code côté serveur fonctionne de la même manière que le débogage côté client. Lors de la recherche de fichiers ( Ctrl+P/ ⌘+P), vos fichiers sources auront des chemins commençant par webpack://{application-name}/./(où {application-name}sera remplacé par le nom de votre application, selon votre package.jsonfichier)."
+      }
+    ],
+    "tags": [
+      "Next.js ",
+      "débogage"
+    ],
+    "date": "2025-04-27",
+    "id": 10,
+    "slug": "comment-utiliser-les-outils-de-dbogage-avec-nextjs"
   }
 ];
