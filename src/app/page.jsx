@@ -24,13 +24,19 @@ export default function Home() {
               <span className="inline-block px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full mb-3">
                 Nouveau
               </span>
-              <h3 className="text-xl font-bold mb-2">Maîtrisez Next.js 14</h3>
+              <span className="inline-block px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full mb-3">
+                Next.js
+              </span>
+              <span className="inline-block px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full mb-3">
+                debug
+              </span>
+              <h3 className="text-xl font-bold mb-2">Comment utiliser les outils de débogage avec Next.js</h3>
               
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Apprenez les nouvelles fonctionnalités de la dernière version.
+              Débogage avec VS Code.
               </p>
               <Link 
-                href="/blog/nextjs-14" 
+                href="/blog/comment-utiliser-les-outils-de-dbogage-avec-nextjs" 
                 className="btn-primary inline-flex items-center"
               >
                 Lire l'article

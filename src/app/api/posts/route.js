@@ -6,10 +6,8 @@ export async function POST(request) {
   try {
     const newPost = await request.json();
     
-    // Générer un nouvel ID
     const newId = Math.max(...posts.map(p => p.id), 0) + 1;
     
-    // Créer le slug
     const slug = newPost.title
       .toLowerCase()
       .replace(/[^\w\s]/g, '')
@@ -22,10 +20,8 @@ export async function POST(request) {
       date: new Date().toISOString().split('T')[0]
     };
     
-    // Ajouter le nouveau post
     posts.push(fullPost);
     
-    // Sauvegarder dans le fichier (pour le développement)
     if (process.env.NODE_ENV === 'development') {
       const filePath = path.join(process.cwd(), 'src', 'data', 'posts.js');
       const content = `export const posts = ${JSON.stringify(posts, null, 2)};`;

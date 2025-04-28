@@ -1,11 +1,11 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { MoonIcon, SunIcon } from '@heroicons/react/24/solid';
+import { MoonIcon, SunIcon, ArrowRightIcon } from '@heroicons/react/24/solid';
 
 export default function ThemeToggle() {
   const [darkMode, setDarkMode] = useState(false);
-
   useEffect(() => {
     const isDark = localStorage.theme === 'dark' || 
                   (!('theme' in localStorage) && 
@@ -30,6 +30,11 @@ export default function ThemeToggle() {
   };
 
   return (
+  <div className="flex items-center space-x-4">
+    <Link href="/">
+      <ArrowRightIcon className="w-6 h-6 text-blue-500"/>
+    </Link>
+
     <button
       onClick={toggleTheme}
       className="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -41,5 +46,8 @@ export default function ThemeToggle() {
         <MoonIcon className="w-6 h-6 text-gray-700" />
       )}
     </button>
+  </div>
+
+   
   );
 }
